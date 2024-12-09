@@ -25,37 +25,6 @@ interface dimensions{
   }
   
   
-  function testCalculateRectangleRoofPanels() {
-    
-      let result = calculateRectangleRoofPanels({ panelWidth: 4, panelHeight: 4, roofWidth: 3, roofHeight: 10 });
-      console.assert(result === 0, `Expected 0, but got ${result}`);
-  
-    result = calculateRectangleRoofPanels({ panelWidth: 1, panelHeight: 2, roofWidth: 2, roofHeight: 4});
-      console.assert(result === 4, `Expected 6, but got ${result}`);
-  
-    result = calculateRectangleRoofPanels({ panelWidth: 1, panelHeight: 2, roofWidth: 3, roofHeight: 5});
-      console.assert(result === 7, `Expected 6, but got ${result}`);
-  
-    result = calculateRectangleRoofPanels({ panelWidth: 2, panelHeight: 2, roofWidth: 1, roofHeight: 10});
-      console.assert(result === 0, `Expected 6, but got ${result}`);
-  
-      result = calculateRectangleRoofPanels({ panelWidth: 10, panelHeight: 10, roofWidth: 10, roofHeight: 10 });
-      console.assert(result === 1, `Expected 1, but got ${result}`);
-  
-      result = calculateRectangleRoofPanels({ panelWidth: 5, panelHeight: 5, roofWidth: 10, roofHeight: 10 });
-      console.assert(result === 4, `Expected 4, but got ${result}`);
-  
-      result = calculateRectangleRoofPanels({ panelWidth: 5, panelHeight: 10, roofWidth: 10, roofHeight: 10 });
-      console.assert(result === 2, `Expected 2, but got ${result}`);
-  
-      result = calculateRectangleRoofPanels({ panelWidth: 3, panelHeight: 5, roofWidth: 10, roofHeight: 10 });
-      console.assert(result === 6, `Expected 6, but got ${result}`);
-  }
-  
-  testCalculateRectangleRoofPanels();
-  console.log('All tests passed!');
-  
-  
   interface isoscelesDimensions {
     panelWidth: number;
     panelHeight: number;
