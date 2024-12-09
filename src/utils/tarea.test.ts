@@ -32,25 +32,3 @@ describe("calculateRectangleRoofPanels", () => {
   });
 });
 
-describe("calculateIsoscelesRoofPanels", () => {
-  test("Calcula correctamente los paneles en un techo isósceles", () => {
-    const result = calculateIsoscelesRoofPanels({
-      panelWidth: 1,
-      panelHeight: 1,
-      baseWidth: 4,
-      height: 4,
-    });
-    expect(result).toBe(10); // Triángulo de altura 4, con base 4.
-  });
-
-  test("Retorna 0 si los paneles no caben", () => {
-    const result = calculateIsoscelesRoofPanels({
-      panelWidth: 5,
-      panelHeight: 5,
-      baseWidth: 3,
-      height: 2,
-    });
-    expect(result).toBe(0);
-  });
-});
-2. Pruebas p

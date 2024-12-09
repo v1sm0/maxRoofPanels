@@ -6,25 +6,28 @@ interface dimensions{
   }
   
   export default function calculateRectangleRoofPanels({panelWidth, panelHeight, roofWidth, roofHeight }: dimensions) : number  {
-  
-    const panelsByWidth = Math.floor(roofWidth / panelWidth);
-    const panelsByHeight = Math.floor(roofHeight / panelHeight);
-    const totalPanelsOriginal = panelsByWidth * panelsByHeight;
-    const remainingWidthOriginal = roofWidth % panelWidth;
-    const remainingHeightOriginal = roofHeight % panelHeight;
-    const additionalPanelsOriginal = (remainingWidthOriginal >= panelHeight ? Math.floor(roofHeight / panelWidth) : 0) + (remainingHeightOriginal >= panelWidth ? Math.floor(roofWidth / panelHeight) : 0);
-  
-    const panelsByWidthRotated = Math.floor(roofWidth / panelHeight);
-    const panelsByHeightRotated = Math.floor(roofHeight / panelWidth);
-    const totalPanelsRotated = panelsByWidthRotated * panelsByHeightRotated;
-    const remainingWidthRotated = roofWidth % panelHeight;
-    const remainingHeightRotated = roofHeight % panelWidth;
-    const additionalPanelsRotated = (remainingWidthRotated >= panelWidth ? Math.floor(roofHeight / panelHeight) : 0) + (remainingHeightRotated >= panelHeight ? Math.floor(roofWidth / panelWidth) : 0);
-  
-    return Math.max(totalPanelsOriginal + additionalPanelsOriginal, totalPanelsRotated + additionalPanelsRotated);
+    if (panelHeight > 0 && panelHeight > 0 && roofHeight > 0 && roofHeight > 0 ){
+
+      const panelsByWidth = Math.floor(roofWidth / panelWidth);
+      const panelsByHeight = Math.floor(roofHeight / panelHeight);
+      const totalPanelsOriginal = panelsByWidth * panelsByHeight;
+      const remainingWidthOriginal = roofWidth % panelWidth;
+      const remainingHeightOriginal = roofHeight % panelHeight;
+      const additionalPanelsOriginal = (remainingWidthOriginal >= panelHeight ? Math.floor(roofHeight / panelWidth) : 0) + (remainingHeightOriginal >= panelWidth ? Math.floor(roofWidth / panelHeight) : 0);
+      
+      const panelsByWidthRotated = Math.floor(roofWidth / panelHeight);
+      const panelsByHeightRotated = Math.floor(roofHeight / panelWidth);
+      const totalPanelsRotated = panelsByWidthRotated * panelsByHeightRotated;
+      const remainingWidthRotated = roofWidth % panelHeight;
+      const remainingHeightRotated = roofHeight % panelWidth;
+      const additionalPanelsRotated = (remainingWidthRotated >= panelWidth ? Math.floor(roofHeight / panelHeight) : 0) + (remainingHeightRotated >= panelHeight ? Math.floor(roofWidth / panelWidth) : 0);
+      
+      return Math.max(totalPanelsOriginal + additionalPanelsOriginal, totalPanelsRotated + additionalPanelsRotated);
+    }else{
+      return -1
+    }
   }
-  
-  
+    
   interface isoscelesDimensions {
     panelWidth: number;
     panelHeight: number;
@@ -44,4 +47,3 @@ interface dimensions{
   
     return totalPanels;
   }
-  

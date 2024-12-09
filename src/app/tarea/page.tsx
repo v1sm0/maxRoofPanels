@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import calculateRectangleRoofPanels from "@/utils/tarea";
 import { Box, Container, TextField, Button, Typography } from '@mui/material';
 
@@ -41,36 +41,40 @@ export default function MaxPanelsCalculationLayout() {
                 label="Panel Width"
                 type="number"
                 value={panelWidth}
-                onChange={(e) => setPanelWidth(Number(e.target.value))}
+                onChange={(e) => setPanelWidth(Math.max(0, Number(e.target.value)))}
                 fullWidth
                 />
             <TextField
                 label="Panel Height"
                 type="number"
                 value={panelHeight}
-                onChange={(e) => setPanelHeight(Number(e.target.value))}
+                onChange={(e) => setPanelHeight(Math.max(0, Number(e.target.value)))}
                 fullWidth
                 />
             <TextField
                 label="Roof Width"
                 type="number"
                 value={roofWidth}
-                onChange={(e) => setRoofWidth(Number(e.target.value))}
+                onChange={(e) => setRoofWidth(Math.max(0, Number(e.target.value)))}
                 fullWidth
                 />
             <TextField
                 label="Roof Height"
                 type="number"
                 value={roofHeight}
-                onChange={(e) => setRoofHeight(Number(e.target.value))}
+                onChange={(e) => setRoofHeight(Math.max(0, Number(e.target.value)))}
                 fullWidth
                 />
             <Button variant="contained" onClick={handleCalculate}>
                 Calculate
             </Button>
-            { isReady && (
-            <Typography variant="h6">Total Panels: {result}</Typography>
-            )}
+            {isReady && result !== null ? (
+              result > 0 ? (
+                <Typography variant="h6">Paneles totales: {result}</Typography>
+              ) : (
+                <Typography variant="h6">Error: Las áreas contienen numeros negativos</Typography>
+              )
+            ) : null}
         </Box>    
       </Box>
     </Container>
