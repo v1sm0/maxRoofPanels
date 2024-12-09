@@ -69,7 +69,7 @@ export default function MaxPanelsCalculationLayout() {
                 Calculate
             </Button>
             {isReady && result !== null ? (
-              result > 0 ? (
+              result >= 0 ? (
                 <Typography variant="h6">Paneles totales: {result}</Typography>
               ) : (
                 <Typography variant="h6">Error: Las áreas contienen numeros negativos</Typography>
