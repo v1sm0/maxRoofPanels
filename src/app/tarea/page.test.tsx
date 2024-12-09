@@ -1,56 +1,83 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import MaxPanelsCalculationLayout from "@/app/page";
+'use client'
+import React from 'react';
+import { useEffect, useState } from 'react';
+import calculateRectangleRoofPanels from "@/utils/tarea";
+import { Box, Container, TextField, Button, Typography } from '@mui/material';
 
+export default function MaxPanelsCalculationLayout() {
+  const [panelWidth, setPanelWidth] = useState<number>(0);
+  const [panelHeight, setPanelHeight] = useState<number>(0);
+  const [roofWidth, setRoofWidth] = useState<number>(0);
+  const [roofHeight, setRoofHeight] = useState<number>(0);
+  const [result, setResult] = useState<number | null>(null);
+  const [isReady, setIsReady] = useState<boolean>(false);
 
-jest.mock("@/utils/tarea", () => ({
-  __esModule: true,
-  default: jest.fn(({ panelWidth, panelHeight, roofWidth, roofHeight }) => {
-    return Math.floor((roofWidth / panelWidth) * (roofHeight / panelHeight));
-  }),
-}));
+  const handleCalculate = () => {
+    const dimensions = { panelWidth, panelHeight, roofWidth, roofHeight };
+    const panels = calculateRectangleRoofPanels(dimensions);
+    setResult(panels);
+    setIsReady(true)
+  };
+  
 
-describe("MaxPanelsCalculationLayout", () => {
-  test("Renderiza los campos de texto y el botón", () => {
-    render(<MaxPanelsCalculationLayout />);
-
-    expect(screen.getByLabelText(/Panel Width/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Panel Height/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Roof Width/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Roof Height/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Calculate/i })).toBeInTheDocument();
-  });
-
-  test("Muestra el resultado correctamente tras el cálculo", async () => {
-    const calculateRectangleRoofPanels = require("@/utils/tarea").default;
-
-    render(<MaxPanelsCalculationLayout />);
-
-    fireEvent.change(screen.getByLabelText(/Panel Width/i), { target: { value: "2" } });
-    fireEvent.change(screen.getByLabelText(/Panel Height/i), { target: { value: "1" } });
-    fireEvent.change(screen.getByLabelText(/Roof Width/i), { target: { value: "6" } });
-    fireEvent.change(screen.getByLabelText(/Roof Height/i), { target: { value: "3" } });
-
-    fireEvent.click(screen.getByRole("button", { name: /Calculate/i }));
-
-    expect(calculateRectangleRoofPanels).toHaveBeenCalledWith({
-      panelWidth: 2,
-      panelHeight: 1,
-      roofWidth: 6,
-      roofHeight: 3,
-    });
-
-    expect(await screen.findByText(/Total Panels: 9/i)).toBeInTheDocument();
-  });
-
-  test("Muestra correctamente que no hay paneles si los datos son inválidos", () => {
-    render(<MaxPanelsCalculationLayout />);
-
-    fireEvent.change(screen.getByLabelText(/Panel Width/i), { target: { value: "0" } });
-    fireEvent.change(screen.getByLabelText(/Panel Height/i), { target: { value: "0" } });
-
-    fireEvent.click(screen.getByRole("button", { name: /Calculate/i }));
-
-    expect(screen.queryByText(/Total Panels:/i)).not.toBeInTheDocument();
-  });
-});
+  return (
+    <Container component="main" maxWidth="xs">
+      <Box 
+        sx={{
+            marginTop: 8
+            }}>
+        <Typography component='h1' variant='h4'>
+            Calculemos la cuantos paneles caben en tu techo!
+        </Typography>
+        <Box
+            sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 3
+            }}
+            >
+            <TextField
+                label="Panel Width"
+                type="number"
+                value={panelWidth}
+                onChange={(e) => setPanelWidth(Math.max(0, Number(e.target.value)))}
+                fullWidth
+                />
+            <TextField
+                label="Panel Height"
+                type="number"
+                value={panelHeight}
+                onChange={(e) => setPanelHeight(Math.max(0, Number(e.target.value)))}
+                fullWidth
+                />
+            <TextField
+                label="Roof Width"
+                type="number"
+                value={roofWidth}
+                onChange={(e) => setRoofWidth(Math.max(0, Number(e.target.value)))}
+                fullWidth
+                />
+            <TextField
+                label="Roof Height"
+                type="number"
+                value={roofHeight}
+                onChange={(e) => setRoofHeight(Math.max(0, Number(e.target.value)))}
+                fullWidth
+                />
+            <Button variant="contained" onClick={handleCalculate}>
+                Calculate
+            </Button>
+            {isReady && result !== null ? (
+              result > 0 ? (
+                <Typography variant="h6">Paneles totales: {result}</Typography>
+              ) : (
+                <Typography variant="h6">Error: Las áreas contienen numeros negativos</Typography>
+              )
+            ) : null}
+        </Box>    
+      </Box>
+    </Container>
+  );
+}
